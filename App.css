@@ -1,0 +1,38 @@
+.all-buttons {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    margin-left: 13.1vw;
+    margin-top: 25px;
+    width: 81.9vw;
+}
+
+.all-buttons > div {
+    margin-bottom: 30px;
+}
+
+p {
+    color: white;
+}
+
+.all-qualities {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-right: 35.87vw;
+}
+
+.parent-all-around-quality {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.all-around-quality {
+    display: flex;
+    align-items: center;
+    margin-right: 35.87vw;
+    margin-top: -10px;
+}
+
+.all-around-quality > h3 {
+    margin-right: 1.3vw;
+}
