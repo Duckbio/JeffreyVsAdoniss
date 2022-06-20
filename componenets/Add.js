@@ -13,8 +13,8 @@ function Add(props) {
         } else if (props.positive===true) { 
             val += props.value;
         }
-        if (val >= 60) {
-            val = 60;
+        if (val >= 100) {
+            val = 100;
         }
         props.setValueOfAdd(val);
     }
@@ -66,6 +66,7 @@ function Add(props) {
                     margin: 0px;
                     padding-top: 6px;
                     margin-right: 5px;
+                    cursor: pointer;
                 }                
             `}</style>
         </div>

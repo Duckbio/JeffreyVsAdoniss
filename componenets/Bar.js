@@ -8,22 +8,38 @@ import data from "../data"
 import Image from "next/image"
 import cookies from 'js-cookie'
 
-function Bar({valueOfAdd} ) { 
-    var total = 0;
-    data.forEach(element => {
-        if(element.positive === true) {
-            total+=element.value;
-        }
-    });
-    var actualValue = parseFloat(cookies.get('potential'));
-    actualValue += (valueOfAdd / total) * 100;
-    if (actualValue > 100) {
-        actualValue = 100;
-    }
-    console.log(actualValue);
+function Bar(props) { 
+    const [actualValue, setActualValue] = useState(0);
     useEffect(() => {
-        cookies.set('potential', actualValue, {expires: 1});
-    }, [actualValue]);
+        var potential;
+        if (cookies.get('potential') === undefined) {
+            potential = 0;
+        } else {
+            potential = cookies.get('potential');
+        }
+        let val = parseFloat(potential);
+        if (val > 100) val = 100;
+        setActualValue(val)
+        console.log('val:' + val);
+        console.log('potential:' + potential)
+    }, []);
+    useEffect(() => {
+        var total = 0;
+        data.forEach(element => {
+            if(element.positive === true) {
+                total+=element.value;
+            }
+        });
+        let val2 = (props.valueOfAdd/total) * 100;
+        if (val2 > 100) {
+            cookies.set('potential', 100, {expires: 1});
+            val2 = 100;
+        } else {
+            setActualValue(val2);
+            cookies.set('potential',  val2, {expires: 1});
+        }
+        console.log('val2: ' + val2);
+    }, [props.valueOfAdd])
     return (
         <div className="main">
             <div className="imgs">
@@ -33,7 +49,7 @@ function Bar({valueOfAdd} ) {
                 <div className="purpleAdonis"><Image src={PurpleAdonisImg} /></div>
                 <div className="goldAdonis"><Image src={GoldAdonisImg} /></div>
             </div>
-            <meter id="bar" value={actualValue} min="0" max={100} optimum={100}></meter>
+            <meter id="bar" value={actualValue } min="0" max="100" optimum="100"></meter>
             <div className="values">
                 <span id="zero">0<span>%</span></span>
                 <span id="twentyfive">25<span>%</span></span>
@@ -49,7 +65,6 @@ function Bar({valueOfAdd} ) {
                     height: 30px;
                     border-radius: 5px;
                     background: #F95151;
-                    -webkit-appearance: none;
                 }
                 
                 meter:-moz-meter-sub-optimum::-moz-meter-bar {

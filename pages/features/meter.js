@@ -19,7 +19,7 @@ export default function meter() {
     return (
         <div>
             <Navbar />
-            <Bar valueOfAdd={valueOfAdd}/>
+            <Bar valueOfAdd={valueOfAdd} />
             <div className='all-buttons'>
                 {add}
             </div>
