@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import GoldAdonisImg from "../images/adonisgold.png"
 import PurpleAdonisImg from "../images/adonispurple.png"
 import DiscipleImg from "../images/disciple.png"
@@ -8,55 +8,77 @@ import data from "../data"
 import Image from "next/image"
 import cookies from 'js-cookie'
 
-function Bar(props) { 
-    const [actualValue, setActualValue] = useState(0);
+function Bar(props) {
+    const [actualValue, setActualValue] = useState();
     useEffect(() => {
         var potential;
         if (cookies.get('potential') === undefined) {
             potential = 0;
         } else {
-            potential = cookies.get('potential');
+            try {
+                potential = cookies.get('potential');
+            } catch {
+                potential = 0;
+            }
         }
         let val = parseFloat(potential);
         if (val > 100) val = 100;
         setActualValue(val)
-        console.log('val:' + val);
-        console.log('potential:' + potential)
+        console.log('end of useeffect 1: ' + val)
     }, []);
+
     useEffect(() => {
+        if(props.valueOfAdd == 0) {
+            return;
+        }
+
+        console.log("valueofadd", props.valueOfAdd)
+        console.log("--- USE EFFECT 2 ---")
         var total = 0;
+        console.log("data: ", data)
         data.forEach(element => {
-            if(element.positive === true) {
-                total+=element.value;
+            if (element.positive === true) {
+                total += element.value;
             }
         });
-        let val2 = (props.valueOfAdd/total) * 100;
+        let val2 = (props.valueOfAdd / total) * 100;
+        console.log("val 2 after: " + val2)
         if (val2 > 100) {
-            cookies.set('potential', 100, {expires: 1});
+            // set cookies
+            console.log("setting cookie to 10000")
+            cookies.set('potential', 100, { expires: 1000000000 });
             val2 = 100;
         } else {
             setActualValue(val2);
-            cookies.set('potential',  val2, {expires: 1});
+            console.log("setting cookie to: " + val2)
+            cookies.set('potential', val2, { expires: 1000000000 });
         }
-        console.log('val2: ' + val2);
+        console.log('end of useeffect 2: ' + val2)
     }, [props.valueOfAdd])
+
     return (
         <div className="main">
-            <div className="imgs">
-                <div className="trueJeffrey"><Image src={TrueJeffreyImg} /></div>
-                <div className="jeffrey"><Image src={JeffreyImg} /></div>
-                <div className="disciple"><Image src={DiscipleImg} /></div>
-                <div className="purpleAdonis"><Image src={PurpleAdonisImg} /></div>
-                <div className="goldAdonis"><Image src={GoldAdonisImg} /></div>
-            </div>
-            <meter id="bar" value={actualValue } min="0" max="100" optimum="100"></meter>
-            <div className="values">
-                <span id="zero">0<span>%</span></span>
-                <span id="twentyfive">25<span>%</span></span>
-                <span id="fifty">50<span>%</span></span>
-                <span id="seventyfive">75<span>%</span></span>
-                <span id="onehundred">100<span>%</span></span>
-            </div>
+            {actualValue === undefined ? <div>Loading...</div> :
+                <>
+                    <div className="imgs">
+                        <div className="trueJeffrey"><Image src={TrueJeffreyImg} /></div>
+                        <div className="jeffrey"><Image src={JeffreyImg} /></div>
+                        <div className="disciple"><Image src={DiscipleImg} /></div>
+                        <div className="purpleAdonis"><Image src={PurpleAdonisImg} /></div>
+                        <div className="goldAdonis"><Image src={GoldAdonisImg} /></div>
+                    </div>
+                    {console.log("actual value: " + actualValue)}
+                    <meter id="bar" value={actualValue} min="0" max="100" optimum="100"></meter>
+                    <div className="values">
+                        <span id="zero">0<span>%</span></span>
+                        <span id="twentyfive">25<span>%</span></span>
+                        <span id="fifty">50<span>%</span></span>
+                        <span id="seventyfive">75<span>%</span></span>
+                        <span id="onehundred">100<span>%</span></span>
+                    </div>
+                </>
+            }
+
 
             <style jsx>{`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Karla:wght@400;500;700&display=swap');
