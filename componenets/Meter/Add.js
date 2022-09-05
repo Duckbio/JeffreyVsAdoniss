@@ -1,32 +1,31 @@
 import React from "react"
-import plus from "../images/plus.png"
-import minus from "../images/minus.png"
+import plus from "../../images/plus.png"
+import minus from "../../images/minus.png"
 import Image from "next/dist/client/image"
-var val = 0;
-
+var clickedOrNot = 0;
 function Add(props) {
+    var val = 0;
     function add() {
         if (props.positive===false && val<-props.value) {
             val = 0;
         } else if (props.positive===false && val>=0) { 
-            val += props.value;
+            val = props.value;
         } else if (props.positive===true) { 
-            val += props.value;
+            val = props.value;
         }
         if (val >= 100) {
             val = 100;
         }
+        clickedOrNot += 1;
         props.setValueOfAdd(val);
+        props.setClickedOrNot(clickedOrNot);
     }
     function subtract() {
-        if (props.positive===true && val<props.value) {
-            val = 0;
-        } else if (props.positive===false && val>=0) { 
-            val -= props.value;
-        } else if (props.positive===true) {
-            val -= props.value;
-        }
+        val = -props.value;
+        clickedOrNot += 1;
         props.setValueOfAdd(val);
+        props.setClickedOrNot(clickedOrNot);
+        
     }
     var order;
     if (props.positive === true) {
@@ -37,7 +36,7 @@ function Add(props) {
     return (
         <div className="buttons">
             <label>{props.description}</label>
-            <button onClick={add} type="submit" className="plus"><Image src={plus} alt="plus" /></button>
+            <button onMouseDown={add} type="submit" className="plus"><Image src={plus} alt="plus" /></button>
             <button onClick={subtract} type="submit" className="minus"><Image src={minus} alt="minus" /></button>
         
             <style jsx>{` 
@@ -46,6 +45,7 @@ function Add(props) {
                     display: flex;
                     align-items: center;
                     margin-bottom: 30px;
+                    box-sizing: border-box;
                 }
                 
                 button {
@@ -56,7 +56,8 @@ function Add(props) {
                 
                 label {
                     margin-right: 2px;
-                    font-size: 20px;
+                    // font-size: 20px;
+                    font-size: clamp(0.5rem, 4vw, 1.4rem);
                     color: white;
                 }
                 
@@ -67,7 +68,7 @@ function Add(props) {
                     padding-top: 6px;
                     margin-right: 5px;
                     cursor: pointer;
-                }                
+                }
             `}</style>
         </div>
     );

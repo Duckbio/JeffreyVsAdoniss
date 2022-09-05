@@ -19,8 +19,8 @@ export default function Navbar(props) {
                     <li><Link href="/"><a>Home</a></Link></li>
                     <li><Link href="/features/meter"><a>Progress</a></Link></li>
                     <li><Link href="/features/quality"><a>Quality</a></Link></li>
-                    {/* <li><Link href="/features/signup"><a>Sign up</a></Link></li>
-                    <li><Link href="/features/login"><a>Log in</a></Link></li> */}
+                    <li><Link href="/features/Planner/due"><a>Planner</a></Link></li>
+                    {/* <li><Link href="/features/signup"><a>Sign up</a></Link></li> */}
                 </ul>
             </div>
             
@@ -31,6 +31,7 @@ export default function Navbar(props) {
                     align-items: center;
                     background-color: #21222A;
                     font-family: 'Inter', sans-serif;
+                    width: 100vw;
                 }
 
                 nav > h1 {
@@ -57,7 +58,7 @@ export default function Navbar(props) {
                     display: block;
                     position: absolute;
                     padding-left: 0px;
-                    margin-top: 30px;
+                    margin-top: 45px;
                     border: 1px solid gray;
                     background-color: #21222A;
                 }

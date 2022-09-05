@@ -1,38 +1,88 @@
 import React, {useRef, useState, useEffect} from "react";
 import Navbar from "../../componenets/Navbar"
-import Bar from "../../componenets/Bar"
-import Add from "../../componenets/Add"
+import Bar from "../../componenets/Meter/Bar"
+import Add from "../../componenets/Meter/Add"
 import data from "../../data"
 
-
+var columnLength;
 export default function meter() {
     const [valueOfAdd, setValueOfAdd] = useState(0);
+    const [clickedOrNot, setClickedOrNot] = useState(0);
     const add = data.map(add => {
         return <Add 
-            setValueOfAdd={setValueOfAdd} //There's probably a much better way to do it but whatever LMAO 
+            setValueOfAdd={setValueOfAdd} 
+            setClickedOrNot={setClickedOrNot}
             description={add.description}
             value={add.value}
             positive={add.positive}
-            key={add.description}
+            order={add.order}
+            key={add.order}
         />
     })
+    const refElem = useRef(0);
+    const [width, setWidth] = useState(0);
+    const getListSize = () => {
+        const newWidth = refElem.current.clientWidth;
+        setWidth(newWidth);
+        switch(true) {
+            case (newWidth <= 634):
+                columnLength = 'auto auto'
+                break;
+            case (634 < newWidth && newWidth <= 774):
+                columnLength = 'auto auto auto';
+                break;
+            default:
+                columnLength = 'auto auto auto auto'
+        }
+    };
+    useEffect(() => {
+        window.addEventListener("resize", getListSize);
+    }, []);
+    useEffect(() => {
+        const newWidth = refElem.current.clientWidth;
+        setWidth(newWidth);
+        switch(true) {
+            case (newWidth <= 634):
+                columnLength = 'auto auto'
+                break;
+            case (634 < newWidth && newWidth <= 774):
+                columnLength = 'auto auto auto';
+                break;
+            default:
+                columnLength = 'auto auto auto auto';
+        }
+    }, [width])
     return (
         <div>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <Navbar />
-            <Bar valueOfAdd={valueOfAdd} />
-            <div className='all-buttons'>
-                {add}
+            <div className="holder">
+                <Bar ref={refElem} valueOfAdd={valueOfAdd} clickedOrNot={clickedOrNot}/>
+                <div className='all-buttons'>
+                    {add}
+                </div>
             </div>
 
             <style jsx>{`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Karla:wght@400;500;700&display=swap');
                 .all-buttons {
                     display: grid;
-                    grid-template-columns: auto auto auto auto;
-                    margin-left: 13.1vw;
+                    grid-template-columns: ${columnLength};
                     margin-top: 25px;
-                    width: 79.01vw;
-                    min-width: 79.01vw;
+                    width: ${width}px;
+                    margin: 0 auto;
+                }
+
+                .holder {
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+            
+                @media only screen and (max-width: 534px) {
+                    label {
+                        font-size: 10px;
+                    }
                 }
             `}</style>
         </div>
