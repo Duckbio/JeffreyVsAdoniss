@@ -1,26 +1,26 @@
 export default [
     {
-        description: "a", //Independence
+        description: "Independence",
     },
     {
-        description: "b", //Appearance
+        description: "Appearance",
     },
     {
-        description: "b", //"Goals and ambition"
+        description: "Goals and ambition",
     },
     {
-        description: "c", //Respectability
+        description: "Respectability",
     },
     {
-        description: "d", //Humility
+        description: "Humility",
     },
     {
-        description: "e",//Sincerity
+        description: "Sincerity",
     },
     {
-        description: "f",//Confidence
+        description: "Confidence",
     },
     {
-        description: "g",//Integrity to own quality
+        description: "Integrity to own quality",
     },
 ]
