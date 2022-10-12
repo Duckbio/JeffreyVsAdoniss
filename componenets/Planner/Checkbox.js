@@ -10,6 +10,7 @@ export default function Checkbox(props) {
     function handleChange(e) {
         setCheckboxTick(e.target.checked);
         e.target.checked ==  true ? numberOfTicked += 1 : numberOfTicked -= 1;
+        numberOfTicked = (numberOfTicked <= 0) ? 0 : numberOfTicked;
         props.setValueOfCompleted(numberOfTicked);
     }
 
