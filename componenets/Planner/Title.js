@@ -5,7 +5,7 @@ export default function CheckboxTitle(props) {
     const date = new Date();
     const [colorOfFraction, setColorOfFraction] = useState("white");
     useEffect(() => {
-        props.valueOfCompleted == props.numberOfTasks ? setColorOfFraction("green") :   setColorOfFraction("white");
+        (props.valueOfCompleted == props.numberOfTasks) ? setColorOfFraction("green") : setColorOfFraction("white");
     }, [props.valueOfCompleted]);
     return (
         <div className="title">

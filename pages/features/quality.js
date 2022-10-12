@@ -13,13 +13,16 @@ export default function quality() {
         final += element.value;
     })
     final = final / qualitiesList.length;
+    //if(Cookies.get('submitted') != undefined) {
+      //  setSubmitted(Cookies.get('submitted'));
+    //}
     useEffect(() => {
+        //Cookies.set('submitted', submitted);
+        setSubmitted((submitted >= 8) ? 8 : submitted);
         if(submitted == 8) {
             const submittedValues = JSON.parse(Cookies.get('submittedValues'))
             submittedValues.forEach(element => {
-                if (element.resetOrNot == false) {
-                    setTotal(prevTotal => prevTotal + parseInt(element.value));
-                }
+                setTotal(prevTotal => prevTotal + parseInt(element.value));
             });
         } else {
             setTotal(0);
@@ -32,7 +35,7 @@ export default function quality() {
                 <Qualities setSubmitted={setSubmitted}/>
             </div>
             <div className='parent-all-around-quality'>
-                <div className='all-around-quality'><p>Average quality</p><p className='ascii'>{generate('⬛⬜', 10, (total / 8)/10)}</p></div>
+                <div className='all-around-quality'><p>Average</p><p className='ascii'>{generate('⬛⬜', 10, (total / 8)/10)}</p></div>
             </div>
 
             <style jsx>{`
@@ -72,7 +75,7 @@ export default function quality() {
                 }
 
                 .ascii {
-                    font-size:
+                    margin-left: 5px;
                 }
             `}</style>
         </div>

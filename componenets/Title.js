@@ -24,7 +24,7 @@ export default function Title() {
                 }
 
                 .jeffrey {
-                    color: #FF7070;
+                    color: #FF7070;  //FF7070
                 }
 
                 .adonis {

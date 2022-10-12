@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/features/quality": "pages/features/quality.js"
+  "/": "pages/index.js",
+  "/features/Planner/due": "pages/features/Planner/due.js",
+  "/features/Planner/daily": "pages/features/Planner/daily.js"
 }

@@ -15,6 +15,11 @@
     "static/development/_middlewareManifest.js"
   ],
   "pages": {
+    "/": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -25,10 +30,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/features/quality": [
+    "/features/Planner/daily": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/features/quality.js"
+      "static/chunks/pages/features/Planner/daily.js"
+    ],
+    "/features/Planner/due": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/features/Planner/due.js"
     ]
   },
   "ampFirstPages": []

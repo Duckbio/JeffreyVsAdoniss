@@ -1,14 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 var numberOfTicked = 0;
 
+var deleted = 0;
 export default function Checkbox(props) {
+    console.log(props.task)
+    var titleArr = (Cookies.get('title') != undefined) ? JSON.parse(Cookies.get('title')) : [];
     const [checkboxTick, setCheckboxTick] = useState(false);
-    // const [numberOfTicked, setNumberOfTicked] = useState(0);
     function handleChange(e) {
         setCheckboxTick(e.target.checked);
         e.target.checked ==  true ? numberOfTicked += 1 : numberOfTicked -= 1;
         props.setValueOfCompleted(numberOfTicked);
     }
+
+    function Delete() {
+        for (let i = 0; i < titleArr.length; i++) {
+            if (titleArr[i].title == props.task) {
+                titleArr.splice(i, 1);
+                Cookies.set('title', JSON.stringify(titleArr));
+                deleted += 1;
+                numberOfTicked -= 1;
+                props.setValueOfCompleted(numberOfTicked);
+                props.setDeleted(deleted)
+            }
+        }
+    }
+
     return (
         <div className="checkbox-and-date">
             <div className="checkbox">
@@ -16,8 +33,10 @@ export default function Checkbox(props) {
                     <input type="checkbox" id="checkbox" checked={checkboxTick} onChange={handleChange}/>
                     <span className="checkbox-custom"></span>
                 </label>
-                <label htmlFor="checkbox" className="description-label">{props.task}</label>
+                <label htmlFor="checkbox" className="title-label">{props.task}</label>
+                <button className="remove-bttn" onClick={Delete}>Remove</button>
             </div>
+            <h4 className="description">{props.description}</h4>
             <h4 className="date">18:00</h4>
             
 
@@ -79,10 +98,18 @@ export default function Checkbox(props) {
                     transform: rotate(45deg);
                 }
 
-                .description-label {
+                .title-label {
                     font-size: 24px;
                     margin-bottom: 6px;
                     margin-left: 5px;
+                }
+
+                .description {
+                    margin-bottom: 10px;
+                    margin-top: -5px;
+                    margin-left: 49px;
+                    font-size: 20px;
+                    font-weight: 400;
                 }
 
                 .checkbox-and-date {
@@ -96,6 +123,19 @@ export default function Checkbox(props) {
                     margin-left: 49px;
                     margin-top: 0px;
                     margin-bottom: 0px;
+                }
+                
+                .remove-bttn {
+                    margin: auto;
+                    margin-right: 5px;
+                    border: none;
+                    background: none;
+                    color: white;
+                    font-size: 15px;
+                }
+
+                .remove-bttn:hover {
+                    color: orange;
                 }
             `}</style>
         </div>

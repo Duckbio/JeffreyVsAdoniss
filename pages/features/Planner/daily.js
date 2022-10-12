@@ -9,43 +9,67 @@ import { useEffect, useState } from "react"
 import cookies from 'js-cookie'
 import Popup from "reactjs-popup"
 
-var descArr = [cookies.get('description')];
-var title = cookies.get('title');
+var titleArr = (cookies.get('title') != undefined) ? JSON.parse(cookies.get('title')) : []
+var numberOfTasks;
 export default function daily() {
-    // for(var i = 0; i <= titleArr.length; i++) {
-    //     var string = titleArr[i];
-    //     console.log(string.indexOf(","));
-    //     // if(string.indexOf(",") == 0) {
-    //     //     titleArr[i].replace(",", "");
-    //     // }
-    // }
-    var tasks;
-    var numberOfTasks;
+    const [deleted, setDeleted] = useState(0)
     const [valueOfCompleted, setValueOfCompleted] = useState(0);
-    const [submitted, setSubmitted] = useState(false);
+    const [submitted, setSubmitted] = useState(0);
     const [checkboxes, setCheckboxes] = useState([]);
-    for(var i in plans) {
-        const object = plans[i];
-        if(object.type == "daily") {
-            tasks = object.plans;
-            numberOfTasks = object.plans.length;
-        }
-    }
+    // for(var i in plans) {
+    //     const object = plans[i];
+    //     if(object.type == "daily") {
+    //         tasks = object.plans;
+    //         numberOfTasks = object.plans.length;
+    //     }
+    // }
+
     useEffect(() => {
-        setCheckboxes(tasks.map(task => {
+        titleArr = (cookies.get('title') != undefined) ? JSON.parse(cookies.get('title')) : [];
+    }, [deleted])
+
+    useEffect(() => {
+        numberOfTasks = titleArr.length;
+        console.log(titleArr)
+        if (titleArr != cookies.get('title')) {
+            titleArr = (cookies.get('title') != undefined) ? JSON.parse(cookies.get('title')) : [];
+        }
+        const titles = titleArr.map(task => {
             return (
                 <div>
                     <Checkbox 
                         setValueOfCompleted={setValueOfCompleted}
-                        task={task}
-                        key={task}
+                        setDeleted={setDeleted}
+                        task={task.title}
+                        description={task.description}
+                        key={task.title}
                     /> 
                     <hr></hr>
                 </div>   
             )
-        }))
-    }, [submitted])
-    const Modal = function Modal() {
+        })
+        setCheckboxes(titles)
+    }, [cookies.get('title')])
+
+    // useEffect(() => {
+    //     const titles = titleArr.map(title => {
+    //         return (
+    //             <div>
+    //                 <Checkbox 
+    //                     setValueOfCompleted={setValueOfCompleted}
+    //                     setDeleted={setDeleted}
+    //                     task={title}
+    //                     key={title}
+    //                 /> 
+    //                 <hr></hr>
+    //             </div>   
+    //         )
+    //     })
+    //     setCheckboxes(titles)
+    // }, [submitted])
+    
+    
+    function Modal() {
         // console.log('Title: ' + cookies.get('title'));
         // console.log('Desc: ' + cookies.get('description'));
         // console.log(titleArr);
@@ -53,8 +77,8 @@ export default function daily() {
         const [formData, setFormData] = useState({
             title: "",
             description: "",
-        });
-    
+        })
+
         function handleChange(e) {
             setFormData(prevFormData => {
                 return {
@@ -63,15 +87,15 @@ export default function daily() {
                 }
             })
         }
-    
+
         function handleSubmit(e) {
-            e.preventDefault(); 
-            // titleArr.push(e.target.title.value);
+            e.preventDefault()
+            titleArr.push({title: e.target.title.value, description: e.target.description.value})
             // descArr[descArr.length] = e.target.description.value;
             // console.log("Title: " + e.target.title.value);
-            // cookies.set('title', titleArr, { expires: 1000 });
+            cookies.set('title', JSON.stringify(titleArr))
             // cookies.set('description', descArr, { expires: 1000 });
-            setSubmitted(true);
+            setSubmitted(submitted => submitted + 1)
         }
         // console.log(cookies.get('title'));
         return (
@@ -79,10 +103,22 @@ export default function daily() {
                 <Popup trigger={<button className="button"><h2 className="button-text"><span id="plus">+</span> Add task</h2></button>} position="bottom left">
                     {close => (
                         <form className="modal-content" onSubmit={(e) => handleSubmit(e)}>
-                            <input autoComplete="off" type="text" name="title" placeholder="e.g. Review your mother" className="task-input" onChange={(e) => handleChange(e)} value={formData.username}/>
-                            <input autoCapitalize="on" autoComplete="off" type="textarea" name="description" placeholder="e.g. Review your mother" className="description-input" onChange={(e) => handleChange(e)} value={formData.username}/>
+                            <label className="seperate-label">Title</label>
+                            <input autoComplete="off" type="text" name="title" placeholder="e.g. Review your mother" className="task-input" onChange={(e) => handleChange(e)} value={formData.username} />
+                            <label className="seperate-label">Description</label>
+                            <input autoCapitalize="on" autoComplete="off" type="textarea" name="description" placeholder="e.g. Review your mother" className="description-input" onChange={(e) => handleChange(e)} value={formData.username} />
+                            <div className="horizontal-inputs">
+                                <div id="1">
+                                    <label className="side-label">Due</label>
+                                    <input type="date"></input>
+                                </div>
+                                <div id="2">
+                                    <label className="side-label">Colour</label>
+                                    <input className="colourPick" type="color"></input>
+                                </div>
+                            </div>
                             <div className="cancel-and-submit">
-                                <button className="close-button" onClick={() => {close()}}>Cancel</button>
+                                <button className="close-button" onClick={() => { close() } }>Cancel</button>
                                 <button type="submit">Add task</button>
                             </div>
                         </form>
@@ -127,6 +163,21 @@ export default function daily() {
 
                     .task-input {
                         margin-top: 5px;
+                    }
+
+                    .seperate-label {
+                        margin-left: 5px;
+                        font-size: 14px;
+                    }
+
+                    .side-label {
+                        margin-left: 5px;
+                        font-size: 14px;
+                        display: inline;
+                    }
+
+                    .colourPick {
+                        max-width: 100px;
                     }
 
                     .cancel-and-submit {
