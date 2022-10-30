@@ -58,7 +58,6 @@ const Bar = forwardRef((props, ref) => {
             cookies.set('potential', val2, { expires: 1 });
         }
         setActualValue(val2);
-        console.log(trueValueOfAdd)
     }, [props.clickedOrNot])
     return (
         <div className="main">

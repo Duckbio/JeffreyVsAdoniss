@@ -20,7 +20,7 @@ export default function Navbar(props) {
                     <li><Link href="/features/meter"><a>Progress</a></Link></li>
                     <li><Link href="/features/quality"><a>Quality</a></Link></li>
                     <li><Link href="/features/Planner/due"><a>Planner</a></Link></li>
-                    {/* <li><Link href="/features/signup"><a>Sign up</a></Link></li> */}
+                    <li><Link href="/features/Journal/newEntry"><a>Journal</a></Link></li>
                 </ul>
             </div>
             

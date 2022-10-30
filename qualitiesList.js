@@ -6,7 +6,7 @@ export default [
         description: "Appearance",
     },
     {
-        description: "Goals and ambition",
+        description: "Goals & ambition",
     },
     {
         description: "Respectability",

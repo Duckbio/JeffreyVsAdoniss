@@ -57,7 +57,9 @@ export default function QualitiesNotDefined(props) {
                         border-radius: 3px;
                         height: 2.5vh;
                         font-family: 'Inter', sans-serif;
-                        width: 50%;
+                        width: clamp(5rem, 200px, 400px);
+                        height: clamp(2.5vh, 3vh, 5vh);
+                        font-size: clamp(0.4rem, 2vw, 0.9rem);
                     }
         
                     form > button {
@@ -66,7 +68,7 @@ export default function QualitiesNotDefined(props) {
                         // font-size: clamp(0.4rem, 2vw, 1.4rem);
                         color: black;
                         margin-left: 10px;
-                        height: clamp(2.5vh, 3vh, 5vh)
+                        height: clamp(2.5vh, 3vh, 5vh);
                     }
                 `}</style>
             </div>
@@ -81,6 +83,12 @@ export default function QualitiesNotDefined(props) {
                     div {
                         display: flex;
                         margin-right: 5px;
+                    }
+
+                    p {
+                        font-size: clamp(0.1rem, 4vw, 1.6rem);
+                        width: clamp(20px, 300px, 100%);
+                        //margin-right: -128px;
                     }
 
                     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Karla:wght@400;500;700&display=swap');
@@ -112,7 +120,7 @@ export default function QualitiesNotDefined(props) {
         <div className="qualities">
             <p>{props.description}</p>
             {(submittedOrNot) ? <ASCII value={value} /> : <Form />}
-            <button onClick={Reset}>Reset</button>
+            <button onClick={Reset} className="reset">Reset</button>
             <style jsx>{`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Karla:wght@400;500;700&display=swap');
                 .qualities {
@@ -121,15 +129,19 @@ export default function QualitiesNotDefined(props) {
                 }
                             
                 .qualities > p {
-                    margin-right: 1.3vw;
+                    margin-right: clamp(0.2vw, 1.3vw, 1.3vw);
                     // font-size: clamp(6px, 20.8px, 32px);
-                    font-size: clamp(0.5rem, 4vw, 1.4rem);
+                    font-size: clamp(0.1rem, 4vw, 1.6rem);
                     color: white;
                     align-self: center;
+                    width: clamp(20px, 300px, 600px);
+                    text-align: left;
                 }
 
-                .qualities > button {
+                .reset {
                     align-self: center;
+                    margin-left: clamp(10px, -30px, -50px);
+                    height: clamp(2.5vh, 3.1vh, 5vh);
                 }
             `}</style>
         </div>

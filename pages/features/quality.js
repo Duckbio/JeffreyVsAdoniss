@@ -35,7 +35,7 @@ export default function quality() {
                 <Qualities setSubmitted={setSubmitted}/>
             </div>
             <div className='parent-all-around-quality'>
-                <div className='all-around-quality'><p>Average</p><p className='ascii'>{generate('⬛⬜', 10, (total / 8)/10)}</p></div>
+                <div className='all-around-quality'><p className='average'>Average</p><p className='ascii'>{generate('⬛⬜', 10, (total / 8)/10)}</p></div>
             </div>
 
             <style jsx>{`
@@ -76,6 +76,12 @@ export default function quality() {
 
                 .ascii {
                     margin-left: 5px;
+                    font-size: clamp(0.1rem, 4vw, 1.6rem);
+                }
+
+                .average {
+                    font-size: clamp(0.1rem, 4vw, 1.6rem);
+                    width: clamp(20px, 300px, 600px);
                 }
             `}</style>
         </div>
